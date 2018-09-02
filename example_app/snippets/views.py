@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from snippets.models import Snippet
@@ -21,11 +22,18 @@ class SnippetViewSet(viewsets.ModelViewSet):
 
     Try it yourself by logging in as one of these four users: **amy**, **max**,
     **jose** or **aziz**.  The passwords are the same as the usernames.
+
+    retrieve:
+    Devuelve el snippet con id {id} recibido como parámetro
+    
+    highlight:
+    Devuelve el código en formato HTML con sintaxis resaltada
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
+    filter_fields = ('title', 'created')
 
     @detail_route(renderer_classes=(renderers.StaticHTMLRenderer,))
     def highlight(self, request, *args, **kwargs):
@@ -33,7 +41,7 @@ class SnippetViewSet(viewsets.ModelViewSet):
         return Response(snippet.highlighted)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
