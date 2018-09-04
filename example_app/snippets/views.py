@@ -36,6 +36,8 @@ class SnippetViewSet(viewsets.ModelViewSet):
     serializer_class = SnippetSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
+    # Agregados estos filtros como ejemplo de cómo se muestran
+    # en Django Rest Swagger
     filter_fields = ('title', 'created')
 
     @detail_route(renderer_classes=(renderers.StaticHTMLRenderer,))
