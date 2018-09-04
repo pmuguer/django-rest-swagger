@@ -22,6 +22,10 @@ class SnippetViewSet(viewsets.ModelViewSet):
     Try it yourself by logging in as one of these four users: **amy**, **max**,
     **jose** or **aziz**.  The passwords are the same as the usernames.
 
+    En las siguientes líneas se muestra cómo documentar actions
+    (la acción habitual **retrieve** y una action **highlight**
+    correspondiente a un detail route)
+
     retrieve:
     Devuelve el snippet con id {id} recibido como parámetro
     
